@@ -1,42 +1,118 @@
 <view class="container {{__theme__==='dark'?'theme-dark':''}}">
-  <view class="toolbar card p-16 row gap-12">
-    <picker mode="selector" range="{{['树视图','列表视图']}}" bindchange="onViewChange">
-      <view class="chip">树视图</view>
-    </picker>
-    <picker mode="selector" range="{{['全部','前5代','前10代']}}" bindchange="onGenChange">
-      <view class="chip">层级</view>
-    </picker>
-    <button size="mini" class="btn-ghost" bindtap="resetView">复位</button>
+  <!-- 工具栏 -->
+  <view class="toolbar-section">
+    <view class="toolbar-left">
+      <picker mode="selector" range="{{['🌳 树视图','📋 列表视图']}}" bindchange="onViewChange">
+        <view class="tool-chip">
+          <text>{{viewTypes[viewMode]}}</text>
+        </view>
+      </picker>
+      <picker mode="selector" range="{{['全部世代','前5代','前10代']}}" bindchange="onGenChange">
+        <view class="tool-chip">
+          <text>{{genTypes[genFilter]}}</text>
+        </view>
+      </picker>
+    </view>
+    <view class="toolbar-right">
+      <view class="tool-btn" bindtap="resetView">
+        <text class="btn-icon">🎯</text>
+        <text>复位</text>
+      </view>
+    </view>
   </view>
 
-  <view class="tree-canvas card" style="height: 900rpx; margin-top: 16rpx; position:relative; overflow: hidden;">
-    <movable-area style="width: 100%; height: 100%; position: relative;">
-      <movable-view direction="all" scale scale-min="0.5" scale-max="2.5" scale-value="{{scale}}" x="{{offsetX}}" y="{{offsetY}}" style="width: 1600rpx; height: 1200rpx;">
-        <view style="width: 1600rpx; height: 1200rpx; position:relative;">
-          <view class="node" style="left: 760rpx; top: 40rpx;">
-            <view class="avatar"></view>
-            <view class="name">始祖 张一</view>
-            <view class="meta">(1820-1890)</view>
+  <!-- 家谱画布 -->
+  <view class="tree-canvas">
+    <movable-area class="canvas-area">
+      <movable-view 
+        direction="all" 
+        scale 
+        scale-min="0.5" 
+        scale-max="2.5" 
+        scale-value="{{scale}}" 
+        x="{{offsetX}}" 
+        y="{{offsetY}}" 
+        class="canvas-content">
+        
+        <!-- 连接线 -->
+        <view class="connection-lines">
+          <view class="line vertical" style="left: 800rpx; top: 120rpx; height: 120rpx;"></view>
+          <view class="line horizontal" style="left: 560rpx; top: 240rpx; width: 480rpx;"></view>
+          <view class="line vertical" style="left: 560rpx; top: 240rpx; height: 20rpx;"></view>
+          <view class="line vertical" style="left: 1040rpx; top: 240rpx; height: 20rpx;"></view>
+        </view>
+        
+        <!-- 成员节点 -->
+        <view class="tree-nodes">
+          <view class="member-node ancestor" style="left: 720rpx; top: 40rpx;" bindtap="onNodeTap" data-id="1">
+            <view class="node-avatar male">张</view>
+            <view class="node-info">
+              <view class="node-name">始祖 张一</view>
+              <view class="node-meta">第1代 · (1820-1890)</view>
+              <view class="node-tags">
+                <view class="tag-item">始祖</view>
+              </view>
+            </view>
           </view>
-          <view class="node" style="left: 520rpx; top: 260rpx;">
-            <view class="avatar"></view>
-            <view class="name">张二</view>
-            <view class="meta">(1848-1912)</view>
+          
+          <view class="member-node" style="left: 480rpx; top: 260rpx;" bindtap="onNodeTap" data-id="2">
+            <view class="node-avatar male">张</view>
+            <view class="node-info">
+              <view class="node-name">张二</view>
+              <view class="node-meta">第2代 · (1848-1912)</view>
+              <view class="node-tags">
+                <view class="tag-item">长子</view>
+              </view>
+            </view>
           </view>
-          <view class="node" style="left: 1000rpx; top: 260rpx;">
-            <view class="avatar"></view>
-            <view class="name">张三</view>
-            <view class="meta">(1852-1920)</view>
+          
+          <view class="member-node" style="left: 960rpx; top: 260rpx;" bindtap="onNodeTap" data-id="3">
+            <view class="node-avatar male">张</view>
+            <view class="node-info">
+              <view class="node-name">张三</view>
+              <view class="node-meta">第2代 · (1852-1920)</view>
+              <view class="node-tags">
+                <view class="tag-item">次子</view>
+              </view>
+            </view>
           </view>
         </view>
       </movable-view>
     </movable-area>
+    
+    <!-- 空状态 -->
+    <view class="tree-empty" wx:if="{{members.length === 0}}">
+      <view class="empty-icon">🌳</view>
+      <view class="empty-text">暂无家谱数据</view>
+      <view class="empty-desc">添加第一个成员开始建谱</view>
+      <view class="empty-action" bindtap="onAddMember">
+        <text>+ 添加成员</text>
+      </view>
+    </view>
   </view>
 
-  <view class="fixed-actions">
-    <button size="mini" class="btn-primary fab">+</button>
-    <button size="mini" class="btn-primary fab">-</button>
-    <button size="mini" class="fab btn-ghost">定位我</button>
+  <!-- 悬浮操作按钮 -->
+  <view class="floating-controls">
+    <view class="control-group">
+      <view class="control-btn zoom-in" bindtap="onZoomIn">
+        <text class="control-icon">🔍</text>
+        <text class="control-label">放大</text>
+      </view>
+      <view class="control-btn zoom-out" bindtap="onZoomOut">
+        <text class="control-icon">🔍</text>
+        <text class="control-label">缩小</text>
+      </view>
+    </view>
+    <view class="control-group">
+      <view class="control-btn center" bindtap="resetView">
+        <text class="control-icon">🎯</text>
+        <text class="control-label">居中</text>
+      </view>
+      <view class="control-btn add-member" bindtap="onAddMember">
+        <text class="control-icon">➕</text>
+        <text class="control-label">添加</text>
+      </view>
+    </view>
   </view>
 </view>
 

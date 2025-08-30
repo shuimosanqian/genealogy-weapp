@@ -3,6 +3,14 @@ App({
     theme: 'light'
   },
   onLaunch() {
+    // 初始化云开发
+    if (wx.cloud) {
+      wx.cloud.init({
+        env: 'cloud1-2gk5rkgwabd2e7c9', // 请替换为你的真实环境ID
+        traceUser: true
+      });
+    }
+    
     this.applyTheme(this.globalData.theme);
   },
   applyTheme(theme) {

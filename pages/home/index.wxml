@@ -1,40 +1,58 @@
 <view class="container {{__theme__==='dark'?'theme-dark':''}}">
-  <view class="search card p-16 row gap-12">
-    <input class="input" placeholder="搜索成员/分支/籍贯" confirm-type="search" style="flex:1;"/>
-    <button size="mini" class="btn-primary">搜索</button>
+  <!-- 搜索区域 -->
+  <view class="search-section">
+    <view class="search-box">
+      <view class="search-icon">🔍</view>
+      <input class="search-input" placeholder="搜索成员/分支/籍贯" confirm-type="search" value="{{searchText}}" bindinput="onSearchInput"/>
+      <view class="search-btn" bindtap="onSearch">搜索</view>
+    </view>
   </view>
 
-  <view class="quick section">
-    <view class="section-title">快捷入口</view>
-    <view class="grid-3">
-      <view class="quick-card card p-24">
-        <view class="title" style="font-size:28rpx;">新建家谱</view>
-        <view class="subtitle mt-8">从零开始</view>
+  <!-- 快捷入口 -->
+  <view class="quick-section">
+    <view class="section-title">
+      <view class="title-icon">⚡</view>
+      <text>快捷入口</text>
+    </view>
+    <view class="quick-grid">
+      <view class="quick-card" bindtap="onCreateFamily">
+        <view class="card-icon">👥</view>
+        <view class="card-title">新建家谱</view>
+        <view class="card-desc">从零开始</view>
       </view>
-      <view class="quick-card card p-24">
-        <view class="title" style="font-size:28rpx;">邀请成员</view>
-        <view class="subtitle mt-8">共享协作</view>
+      <view class="quick-card" bindtap="onViewTree">
+        <view class="card-icon">🌳</view>
+        <view class="card-title">查看家谱</view>
+        <view class="card-desc">树状视图</view>
       </view>
-      <view class="quick-card card p-24">
-        <view class="title" style="font-size:28rpx;">导入数据</view>
-        <view class="subtitle mt-8">GEDCOM/Excel</view>
+      <view class="quick-card">
+        <view class="card-icon">📊</view>
+        <view class="card-title">导入数据</view>
+        <view class="card-desc">GEDCOM/Excel</view>
       </view>
     </view>
   </view>
 
-  <view class="recent section">
-    <view class="section-title">最近变更</view>
-    <view class="card p-20">
-      <view class="row-between">
-        <text>张三 更新了成员“张大年”的配偶</text>
-        <text class="text-muted">刚刚</text>
+  <!-- 最近变更 -->
+  <view class="recent-section">
+    <view class="section-title">
+      <view class="title-icon">📝</view>
+      <text>最近变更</text>
+    </view>
+    <view class="recent-list" wx:if="{{recentMembers.length > 0}}">
+      <view class="recent-item" wx:for="{{recentMembers}}" wx:key="_id">
+        <view class="item-avatar">{{item.name.charAt(0)}}</view>
+        <view class="item-content">
+          <view class="item-name">{{item.name}}</view>
+          <view class="item-desc">{{item.gender}} · {{item.generation}}世 · {{item.location || '未填写籍贯'}}</view>
+        </view>
+        <view class="item-time">{{item.createTime}}</view>
       </view>
     </view>
-    <view class="card p-20 mt-16">
-      <view class="row-between">
-        <text>你通过了 李四 的加入申请</text>
-        <text class="text-muted">昨天</text>
-      </view>
+    <view class="empty-state" wx:else>
+      <view class="empty-icon">📋</view>
+      <view class="empty-text">暂无家谱成员</view>
+      <view class="empty-desc">点击"新建家谱"开始创建</view>
     </view>
   </view>
 </view>

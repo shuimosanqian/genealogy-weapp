@@ -1,46 +1,141 @@
 <view class="container {{__theme__==='dark'?'theme-dark':''}}">
-  <view class="header card" style="padding: 24rpx; display:flex; gap: 16rpx;">
-    <image class="avatar" src="" mode="aspectFill"></image>
-    <view style="flex:1;">
-      <view style="font-size: 36rpx; font-weight: 700;">张三</view>
-      <view style="color:#666; margin-top:8rpx;">第5代｜(1988- )｜浙江 宁波</view>
-      <view style="margin-top:8rpx; display:flex; gap:8rpx;">
-        <view class="tag">在世</view>
-        <view class="tag">长子</view>
+  <!-- 成员头部信息 -->
+  <view class="member-header">
+    <view class="header-bg"></view>
+    <view class="header-content">
+      <view class="member-avatar">
+        <text class="avatar-text">{{memberData.name.charAt(0) || '张'}}</text>
+      </view>
+      <view class="member-info">
+        <view class="member-name">{{memberData.name || '张三'}}</view>
+        <view class="member-meta">
+          <text class="meta-item">第{{memberData.generation || 5}}代</text>
+          <text class="meta-divider">·</text>
+          <text class="meta-item">({{memberData.birthYear || '1988'}}- )</text>
+          <text class="meta-divider">·</text>
+          <text class="meta-item">{{memberData.location || '浙江 宁波'}}</text>
+        </view>
+        <view class="member-tags">
+          <view class="member-tag status">{{memberData.status || '在世'}}</view>
+          <view class="member-tag role">{{memberData.role || '长子'}}</view>
+        </view>
       </view>
     </view>
   </view>
 
-  <view class="tabs card" style="margin-top: 16rpx;">
-    <view class="tab-bar">
-      <view class="tab {{activeTab===0?'active':''}}" data-index="0" bindtap="onTab">资料</view>
-      <view class="tab {{activeTab===1?'active':''}}" data-index="1" bindtap="onTab">时间轴</view>
-      <view class="tab {{activeTab===2?'active':''}}" data-index="2" bindtap="onTab">合影</view>
-      <view class="tab {{activeTab===3?'active':''}}" data-index="3" bindtap="onTab">文档</view>
+  <!-- 标签页内容 -->
+  <view class="tabs-container">
+    <view class="tabs-header">
+      <view class="tab-item {{activeTab===0?'active':''}}" data-index="0" bindtap="onTab">
+        <text class="tab-icon">📋</text>
+        <text class="tab-text">资料</text>
+      </view>
+      <view class="tab-item {{activeTab===1?'active':''}}" data-index="1" bindtap="onTab">
+        <text class="tab-icon">⏰</text>
+        <text class="tab-text">时间轴</text>
+      </view>
+      <view class="tab-item {{activeTab===2?'active':''}}" data-index="2" bindtap="onTab">
+        <text class="tab-icon">📸</text>
+        <text class="tab-text">合影</text>
+      </view>
+      <view class="tab-item {{activeTab===3?'active':''}}" data-index="3" bindtap="onTab">
+        <text class="tab-icon">📄</text>
+        <text class="tab-text">文档</text>
+      </view>
     </view>
-    <view style="padding: 20rpx;" wx:if="{{activeTab===0}}">
-      <view class="section-title">基本信息</view>
-      <view class="text-secondary">性别：男</view>
-      <view class="text-secondary">配偶：李四</view>
-      <view class="text-secondary">子女：张五、张六</view>
-    </view>
-    <view style="padding: 20rpx;" wx:if="{{activeTab===1}}">
-      <view class="section-title">时间轴</view>
-      <view class="text-secondary">暂无事件</view>
-    </view>
-    <view style="padding: 20rpx;" wx:if="{{activeTab===2}}">
-      <view class="section-title">合影</view>
-      <view class="text-secondary">暂无图片</view>
-    </view>
-    <view style="padding: 20rpx;" wx:if="{{activeTab===3}}">
-      <view class="section-title">文档</view>
-      <view class="text-secondary">暂无文档</view>
+    
+    <view class="tabs-content">
+      <!-- 基本资料 -->
+      <view class="tab-panel" wx:if="{{activeTab===0}}">
+        <view class="info-section">
+          <view class="section-header">
+            <text class="section-icon">👤</text>
+            <text class="section-title">基本信息</text>
+          </view>
+          <view class="info-list">
+            <view class="info-item">
+              <view class="info-label">性别</view>
+              <view class="info-value">{{memberData.gender || '男'}}</view>
+            </view>
+            <view class="info-item">
+              <view class="info-label">出生年份</view>
+              <view class="info-value">{{memberData.birthYear || '1988'}}年</view>
+            </view>
+            <view class="info-item">
+              <view class="info-label">籍贯</view>
+              <view class="info-value">{{memberData.location || '浙江 宁波'}}</view>
+            </view>
+          </view>
+        </view>
+        
+        <view class="info-section">
+          <view class="section-header">
+            <text class="section-icon">👨‍👩‍👧‍👦</text>
+            <text class="section-title">家庭关系</text>
+          </view>
+          <view class="info-list">
+            <view class="info-item">
+              <view class="info-label">配偶</view>
+              <view class="info-value">{{memberData.spouse || '李四'}}</view>
+            </view>
+            <view class="info-item">
+              <view class="info-label">子女</view>
+              <view class="info-value">{{memberData.children || '张五、张六'}}</view>
+            </view>
+            <view class="info-item">
+              <view class="info-label">父母</view>
+              <view class="info-value">{{memberData.parents || '张大年、王氏'}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 时间轴 -->
+      <view class="tab-panel" wx:if="{{activeTab===1}}">
+        <view class="timeline-empty">
+          <view class="empty-icon">⏰</view>
+          <view class="empty-text">暂无时间轴事件</view>
+          <view class="empty-desc">添加重要人生事件</view>
+          <view class="empty-btn" bindtap="onAddEvent">+ 添加事件</view>
+        </view>
+      </view>
+      
+      <!-- 合影 -->
+      <view class="tab-panel" wx:if="{{activeTab===2}}">
+        <view class="photo-empty">
+          <view class="empty-icon">📸</view>
+          <view class="empty-text">暂无合影照片</view>
+          <view class="empty-desc">上传家庭合影</view>
+          <view class="empty-btn" bindtap="onAddPhoto">+ 上传照片</view>
+        </view>
+      </view>
+      
+      <!-- 文档 -->
+      <view class="tab-panel" wx:if="{{activeTab===3}}">
+        <view class="doc-empty">
+          <view class="empty-icon">📄</view>
+          <view class="empty-text">暂无相关文档</view>
+          <view class="empty-desc">上传证件、族谱等</view>
+          <view class="empty-btn" bindtap="onAddDoc">+ 上传文档</view>
+        </view>
+      </view>
     </view>
   </view>
 
-  <view class="fixed-actions">
-    <button class="btn-primary">编辑资料</button>
-    <button>添加关系</button>
+  <!-- 底部操作按钮 -->
+  <view class="action-buttons">
+    <view class="action-btn primary" bindtap="onEdit">
+      <text class="btn-icon">✏️</text>
+      <text>编辑资料</text>
+    </view>
+    <view class="action-btn secondary" bindtap="onAddRelation">
+      <text class="btn-icon">👥</text>
+      <text>添加关系</text>
+    </view>
+    <view class="action-btn tertiary" bindtap="onShare">
+      <text class="btn-icon">📤</text>
+      <text>分享</text>
+    </view>
   </view>
 </view>
 

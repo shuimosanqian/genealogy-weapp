@@ -1,21 +1,228 @@
-<view class="container">
-  <view class="card" style="padding: 24rpx;">
-    <view class="section-title">我的</view>
-    <view style="display:flex; align-items:center; gap: 16rpx;">
-      <view style="width:100rpx; height:100rpx; background:#e6e8ef; border-radius: 50%;"></view>
-      <view>
-        <view style="font-weight:600;">未登录</view>
-        <view style="color:#666;">点击登录以同步数据</view>
+<view class="container {{__theme__==='dark'?'theme-dark':''}}">
+  <!-- 用户头部信息 -->
+  <view class="profile-header">
+    <view class="header-bg"></view>
+    <view class="header-content">
+      <view class="user-avatar" bindtap="onAvatarTap">
+        <text class="avatar-text">{{userInfo.name.charAt(0) || '用'}}</text>
+        <view class="avatar-badge" wx:if="{{userInfo.isLogin}}">✓</view>
+      </view>
+      <view class="user-info">
+        <view class="user-name">{{userInfo.name || '未登录'}}</view>
+        <view class="user-desc" wx:if="{{userInfo.isLogin}}">
+          <text>{{userInfo.role || '家谱管理员'}}</text>
+          <text class="desc-divider">·</text>
+          <text>已创建 {{statistics.familyCount || 0}} 个家谱</text>
+        </view>
+        <view class="user-desc" wx:else>
+          <text>点击头像登录以同步数据</text>
+        </view>
+        <view class="user-actions" wx:if="{{!userInfo.isLogin}}">
+          <view class="action-btn login" bindtap="showLoginModal">立即登录</view>
+        </view>
       </view>
     </view>
   </view>
-  <view class="card" style="padding: 24rpx; margin-top: 16rpx;">
-    <view class="section-title">设置</view>
-    <view class="row-between mt-16">
-      <text>深色主题</text>
-      <switch checked="{{isDark}}" bindchange="onToggleTheme"/>
+
+  <!-- 数据统计 -->
+  <view class="statistics-section" wx:if="{{userInfo.isLogin}}">
+    <view class="section-header">
+      <text class="section-icon">📊</text>
+      <text class="section-title">数据统计</text>
     </view>
-    <view class="text-secondary mt-16">主题、备份、导入导出</view>
+    <view class="stats-grid">
+      <view class="stat-item">
+        <view class="stat-number">{{statistics.memberCount || 0}}</view>
+        <view class="stat-label">家族成员</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{statistics.generationCount || 0}}</view>
+        <view class="stat-label">世代层级</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{statistics.branchCount || 0}}</view>
+        <view class="stat-label">家族分支</view>
+      </view>
+      <view class="stat-item">
+        <view class="stat-number">{{statistics.photoCount || 0}}</view>
+        <view class="stat-label">家族相册</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 家谱管理 -->
+  <view class="management-section">
+    <view class="section-header">
+      <text class="section-icon">🌳</text>
+      <text class="section-title">家谱管理</text>
+    </view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="onMyFamilies">
+        <view class="menu-icon">📚</view>
+        <view class="menu-content">
+          <view class="menu-title">我的家谱</view>
+          <view class="menu-desc">管理创建的家谱</view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="onJoinedFamilies">
+        <view class="menu-icon">👥</view>
+        <view class="menu-content">
+          <view class="menu-title">参与的家谱</view>
+          <view class="menu-desc">查看协作家谱</view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="onFamilyInvite">
+        <view class="menu-icon">📧</view>
+        <view class="menu-content">
+          <view class="menu-title">邀请管理</view>
+          <view class="menu-desc">发送和接收邀请</view>
+        </view>
+        <view class="menu-badge">{{inviteCount || 0}}</view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 工具与设置 -->
+  <view class="tools-section">
+    <view class="section-header">
+      <text class="section-icon">⚙️</text>
+      <text class="section-title">工具与设置</text>
+    </view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="onImportExport">
+        <view class="menu-icon">📁</view>
+        <view class="menu-content">
+          <view class="menu-title">导入导出</view>
+          <view class="menu-desc">GEDCOM/Excel 格式</view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="onBackupRestore">
+        <view class="menu-icon">☁️</view>
+        <view class="menu-content">
+          <view class="menu-title">备份恢复</view>
+          <view class="menu-desc">数据安全保障</view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item">
+        <view class="menu-icon">🌙</view>
+        <view class="menu-content">
+          <view class="menu-title">深色主题</view>
+          <view class="menu-desc">护眼模式</view>
+        </view>
+        <switch class="theme-switch" checked="{{isDark}}" bindchange="onToggleTheme"/>
+      </view>
+      <view class="menu-item" bindtap="onPrivacySettings">
+        <view class="menu-icon">🔒</view>
+        <view class="menu-content">
+          <view class="menu-title">隐私设置</view>
+          <view class="menu-desc">数据权限管理</view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 帮助与反馈 -->
+  <view class="help-section">
+    <view class="section-header">
+      <text class="section-icon">❓</text>
+      <text class="section-title">帮助与反馈</text>
+    </view>
+    <view class="menu-list">
+      <view class="menu-item" bindtap="onHelp">
+        <view class="menu-icon">📖</view>
+        <view class="menu-content">
+          <view class="menu-title">使用帮助</view>
+          <view class="menu-desc">功能说明与教程</view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="onFeedback">
+        <view class="menu-icon">💬</view>
+        <view class="menu-content">
+          <view class="menu-title">意见反馈</view>
+          <view class="menu-desc">问题建议与客服</view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+      <view class="menu-item" bindtap="onAbout">
+        <view class="menu-icon">ℹ️</view>
+        <view class="menu-content">
+          <view class="menu-title">关于我们</view>
+          <view class="menu-desc">版本 v1.0.0</view>
+        </view>
+        <view class="menu-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-section" wx:if="{{userInfo.isLogin}}">
+    <view class="logout-btn" bindtap="onLogout">退出登录</view>
+  </view>
+
+  <!-- 登录弹窗 -->
+  <view class="login-modal" wx:if="{{showLoginModal}}">
+    <view class="modal-mask" bindtap="hideLoginModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">账户登录</text>
+        <view class="modal-close" bindtap="hideLoginModal">✕</view>
+      </view>
+      
+      <view class="modal-body">
+        <view class="input-group">
+          <view class="input-label">用户名/手机号</view>
+          <input 
+            class="login-input" 
+            placeholder="请输入用户名或手机号" 
+            value="{{loginForm.username}}"
+            bindinput="onUsernameInput"
+          />
+        </view>
+        
+        <view class="input-group">
+          <view class="input-label">密码</view>
+          <input 
+            class="login-input" 
+            placeholder="请输入密码" 
+            password="true"
+            value="{{loginForm.password}}"
+            bindinput="onPasswordInput"
+          />
+        </view>
+        
+        <view class="login-options">
+          <view class="remember-me">
+            <checkbox checked="{{loginForm.remember}}" bindchange="onRememberChange"/>
+            <text>记住密码</text>
+          </view>
+          <view class="forgot-password" bindtap="onForgotPassword">忘记密码？</view>
+        </view>
+        
+        <view class="login-actions">
+          <view class="login-btn primary" bindtap="onLoginSubmit">登录</view>
+          <view class="login-btn secondary" bindtap="onRegister">注册账户</view>
+        </view>
+        
+        <view class="other-login">
+          <view class="divider">
+            <text>或使用其他方式登录</text>
+          </view>
+          <view class="social-login">
+            <view class="social-btn wechat" bindtap="onWechatLogin">
+              <text class="social-icon">💬</text>
+              <text>微信登录</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 </view>
 
