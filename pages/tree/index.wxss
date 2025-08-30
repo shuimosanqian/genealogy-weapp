@@ -1,20 +1,255 @@
-.tree-canvas { position: relative; }
-.node {
-  position: absolute;
-  width: 220rpx;
-  padding: 16rpx;
+/* 工具栏 */
+.toolbar-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: var(--color-card-bg);
-  border-radius: var(--radius-node);
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  margin-bottom: 16rpx;
   box-shadow: var(--shadow-base);
 }
-.node .avatar {
-  width: 72rpx;
-  height: 72rpx;
-  background: #e6e8ef;
-  border-radius: 50%;
-}
-.node .name { margin-top: 8rpx; font-weight: 600; }
-.node .meta { color: var(--color-text-3); font-size: 24rpx; }
 
-.toolbar { position: sticky; top: 0; z-index: 2; }
+.toolbar-left {
+  display: flex;
+  gap: 12rpx;
+}
+
+.tool-chip {
+  padding: 8rpx 16rpx;
+  background: var(--color-page-bg);
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: var(--color-text-2);
+  border: 1rpx solid var(--color-divider);
+}
+
+.tool-btn {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 8rpx 12rpx;
+  background: var(--color-brand);
+  color: #fff;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+}
+
+.btn-icon {
+  font-size: 20rpx;
+}
+
+/* 家谱画布 */
+.tree-canvas {
+  height: 900rpx;
+  background: var(--color-card-bg);
+  border-radius: 16rpx;
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-base);
+}
+
+.canvas-area {
+  width: 100%;
+  height: 100%;
+}
+
+.canvas-content {
+  width: 1600rpx;
+  height: 1200rpx;
+  position: relative;
+}
+
+/* 连接线 */
+.connection-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.line {
+  position: absolute;
+  background: var(--color-divider);
+}
+
+.line.vertical {
+  width: 2rpx;
+}
+
+.line.horizontal {
+  height: 2rpx;
+}
+
+/* 成员节点 */
+.tree-nodes {
+  position: relative;
+  z-index: 2;
+}
+
+.member-node {
+  position: absolute;
+  width: 240rpx;
+  background: var(--color-card-bg);
+  border-radius: 16rpx;
+  padding: 16rpx;
+  box-shadow: var(--shadow-base);
+  border: 2rpx solid transparent;
+  transition: all 200ms ease;
+}
+
+.member-node:active {
+  transform: scale(0.98);
+  border-color: var(--color-brand);
+}
+
+.member-node.ancestor {
+  border-color: var(--color-accent);
+  background: linear-gradient(135deg, #fff9f0, #fff);
+}
+
+.node-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 auto 12rpx;
+}
+
+.node-avatar.male {
+  background: linear-gradient(135deg, var(--color-brand), var(--color-brand-2));
+}
+
+.node-avatar.female {
+  background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+}
+
+.node-info {
+  text-align: center;
+}
+
+.node-name {
+  font-size: 26rpx;
+  font-weight: 600;
+  margin-bottom: 6rpx;
+  color: var(--color-text);
+}
+
+.node-meta {
+  font-size: 20rpx;
+  color: var(--color-text-3);
+  margin-bottom: 8rpx;
+}
+
+.node-tags {
+  display: flex;
+  justify-content: center;
+  gap: 6rpx;
+}
+
+.tag-item {
+  padding: 2rpx 8rpx;
+  background: var(--color-accent);
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 18rpx;
+}
+
+/* 空状态 */
+.tree-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 40rpx;
+}
+
+.empty-icon {
+  font-size: 100rpx;
+  margin-bottom: 20rpx;
+  opacity: 0.6;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: var(--color-text-2);
+  margin-bottom: 12rpx;
+}
+
+.empty-desc {
+  font-size: 24rpx;
+  color: var(--color-text-3);
+  margin-bottom: 24rpx;
+}
+
+.empty-action {
+  padding: 12rpx 24rpx;
+  background: var(--color-brand);
+  color: #fff;
+  border-radius: 24rpx;
+  font-size: 26rpx;
+  display: inline-block;
+}
+
+/* 悬浮控制按钮 */
+.floating-controls {
+  position: fixed;
+  right: 24rpx;
+  bottom: 120rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+  z-index: 10;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.control-btn {
+  width: 80rpx;
+  height: 80rpx;
+  background: var(--color-card-bg);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-float);
+  border: 1rpx solid var(--color-divider);
+  transition: all 200ms ease;
+}
+
+.control-btn:active {
+  transform: scale(0.95);
+}
+
+.control-btn.add-member {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+.control-icon {
+  font-size: 24rpx;
+  margin-bottom: 2rpx;
+}
+
+.control-label {
+  font-size: 18rpx;
+  color: var(--color-text-3);
+}
+
+.control-btn.add-member .control-label {
+  color: #fff;
+}
 

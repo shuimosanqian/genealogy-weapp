@@ -1,8 +1,9 @@
 {
   "miniprogramRoot": "./",
+  "cloudfunctionRoot": "./cloudfunctions/",
   "projectname": "genealogy-weapp",
   "description": "家谱小程序",
-  "appid": "touristappid",
+  "appid": "wx8e6b0279beb63ed7",
   "compileType": "miniprogram",
   "setting": {
     "urlCheck": false,
@@ -11,12 +12,17 @@
     "postcss": true,
     "minified": true,
     "coverView": true,
+    "enableUpdateWxAppCode": true,
+    "useMultiFrameRuntime": true,
+    "useApiHostProcess": true,
+    "showShadowRootInWxmlPanel": true,
     "compileWorklet": false,
     "uglifyFileName": false,
     "uploadWithSourceMap": true,
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
+    "minifyJS": true,
     "minifyWXML": true,
     "localPlugins": false,
     "disableUseStrict": false,
@@ -36,5 +42,6 @@
     "ignore": [],
     "include": []
   },
-  "editorSetting": {}
+  "editorSetting": {},
+  "libVersion": "2.27.3"
 }
