@@ -1,0 +1,5 @@
+.section { margin-top: 24rpx; }
+.quick .card { min-height: 140rpx; }
+.quick-card { transition: transform 150ms ease; }
+.quick-card:active { transform: scale(0.98); }
+

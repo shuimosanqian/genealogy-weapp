@@ -1,0 +1,7 @@
+<view class="container">
+  <view class="card" style="padding: 24rpx;">
+    <view class="section-title">协作动态</view>
+    <view style="color:#666;">暂无数据</view>
+  </view>
+</view>
+

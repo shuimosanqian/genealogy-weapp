@@ -1,0 +1,41 @@
+<view class="container {{__theme__==='dark'?'theme-dark':''}}">
+  <view class="search card p-16 row gap-12">
+    <input class="input" placeholder="搜索成员/分支/籍贯" confirm-type="search" style="flex:1;"/>
+    <button size="mini" class="btn-primary">搜索</button>
+  </view>
+
+  <view class="quick section">
+    <view class="section-title">快捷入口</view>
+    <view class="grid-3">
+      <view class="quick-card card p-24">
+        <view class="title" style="font-size:28rpx;">新建家谱</view>
+        <view class="subtitle mt-8">从零开始</view>
+      </view>
+      <view class="quick-card card p-24">
+        <view class="title" style="font-size:28rpx;">邀请成员</view>
+        <view class="subtitle mt-8">共享协作</view>
+      </view>
+      <view class="quick-card card p-24">
+        <view class="title" style="font-size:28rpx;">导入数据</view>
+        <view class="subtitle mt-8">GEDCOM/Excel</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="recent section">
+    <view class="section-title">最近变更</view>
+    <view class="card p-20">
+      <view class="row-between">
+        <text>张三 更新了成员“张大年”的配偶</text>
+        <text class="text-muted">刚刚</text>
+      </view>
+    </view>
+    <view class="card p-20 mt-16">
+      <view class="row-between">
+        <text>你通过了 李四 的加入申请</text>
+        <text class="text-muted">昨天</text>
+      </view>
+    </view>
+  </view>
+</view>
+

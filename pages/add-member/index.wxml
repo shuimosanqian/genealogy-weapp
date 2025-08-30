@@ -1,0 +1,38 @@
+<view class="container {{__theme__==='dark'?'theme-dark':''}}">
+  <view class="card p-24">
+    <view class="section-title">基本信息</view>
+    <view class="row gap-12">
+      <text>姓名</text>
+      <input class="input" placeholder="请输入姓名" style="flex:1;"/>
+    </view>
+    <view class="row gap-12 mt-16">
+      <text>性别</text>
+      <picker mode="selector" range="{{['男','女']}}">
+        <view class="chip">选择</view>
+      </picker>
+    </view>
+    <view class="row gap-12 mt-16">
+      <text>出生年</text>
+      <input class="input" placeholder="YYYY" type="number" style="flex:1;"/>
+    </view>
+    <view class="row gap-12 mt-16">
+      <text>籍贯</text>
+      <input class="input" placeholder="省/市/区" style="flex:1;"/>
+    </view>
+  </view>
+
+  <view class="card p-24 mt-16">
+    <view class="section-title">亲属关系</view>
+    <view class="grid-2">
+      <button class="btn-ghost">添加父母</button>
+      <button class="btn-ghost">添加配偶</button>
+      <button class="btn-ghost">添加子女</button>
+      <button class="btn-ghost">更多</button>
+    </view>
+  </view>
+
+  <view class="fixed-actions">
+    <button class="btn-primary">保存</button>
+  </view>
+</view>
+

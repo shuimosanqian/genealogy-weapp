@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/tree/index",
+    "pages/member/index",
+    "pages/add-member/index",
+    "pages/activity/index",
+    "pages/profile/index"
+  ],
+  "window": {
+    "navigationStyle": "default",
+    "navigationBarTitleText": "家谱",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#2F80ED",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tree/index",
+        "text": "家谱"
+      },
+      {
+        "pagePath": "pages/activity/index",
+        "text": "动态"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  }
+}
+

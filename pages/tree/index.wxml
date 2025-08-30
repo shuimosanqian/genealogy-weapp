@@ -1,0 +1,42 @@
+<view class="container {{__theme__==='dark'?'theme-dark':''}}">
+  <view class="toolbar card p-16 row gap-12">
+    <picker mode="selector" range="{{['树视图','列表视图']}}" bindchange="onViewChange">
+      <view class="chip">树视图</view>
+    </picker>
+    <picker mode="selector" range="{{['全部','前5代','前10代']}}" bindchange="onGenChange">
+      <view class="chip">层级</view>
+    </picker>
+    <button size="mini" class="btn-ghost" bindtap="resetView">复位</button>
+  </view>
+
+  <view class="tree-canvas card" style="height: 900rpx; margin-top: 16rpx; position:relative; overflow: hidden;">
+    <movable-area style="width: 100%; height: 100%; position: relative;">
+      <movable-view direction="all" scale scale-min="0.5" scale-max="2.5" scale-value="{{scale}}" x="{{offsetX}}" y="{{offsetY}}" style="width: 1600rpx; height: 1200rpx;">
+        <view style="width: 1600rpx; height: 1200rpx; position:relative;">
+          <view class="node" style="left: 760rpx; top: 40rpx;">
+            <view class="avatar"></view>
+            <view class="name">始祖 张一</view>
+            <view class="meta">(1820-1890)</view>
+          </view>
+          <view class="node" style="left: 520rpx; top: 260rpx;">
+            <view class="avatar"></view>
+            <view class="name">张二</view>
+            <view class="meta">(1848-1912)</view>
+          </view>
+          <view class="node" style="left: 1000rpx; top: 260rpx;">
+            <view class="avatar"></view>
+            <view class="name">张三</view>
+            <view class="meta">(1852-1920)</view>
+          </view>
+        </view>
+      </movable-view>
+    </movable-area>
+  </view>
+
+  <view class="fixed-actions">
+    <button size="mini" class="btn-primary fab">+</button>
+    <button size="mini" class="btn-primary fab">-</button>
+    <button size="mini" class="fab btn-ghost">定位我</button>
+  </view>
+</view>
+

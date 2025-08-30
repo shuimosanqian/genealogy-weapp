@@ -1,0 +1,21 @@
+<view class="container">
+  <view class="card" style="padding: 24rpx;">
+    <view class="section-title">我的</view>
+    <view style="display:flex; align-items:center; gap: 16rpx;">
+      <view style="width:100rpx; height:100rpx; background:#e6e8ef; border-radius: 50%;"></view>
+      <view>
+        <view style="font-weight:600;">未登录</view>
+        <view style="color:#666;">点击登录以同步数据</view>
+      </view>
+    </view>
+  </view>
+  <view class="card" style="padding: 24rpx; margin-top: 16rpx;">
+    <view class="section-title">设置</view>
+    <view class="row-between mt-16">
+      <text>深色主题</text>
+      <switch checked="{{isDark}}" bindchange="onToggleTheme"/>
+    </view>
+    <view class="text-secondary mt-16">主题、备份、导入导出</view>
+  </view>
+</view>
+

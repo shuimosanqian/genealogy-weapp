@@ -1,0 +1,5 @@
+.header .avatar { width: 120rpx; height: 120rpx; background: #e6e8ef; border-radius: 12rpx; }
+.tab-bar { display:flex; }
+.tabs .tab { flex: 1; text-align: center; padding: 20rpx 0; color: #666; }
+.tabs .tab.active { color: var(--color-brand); border-bottom: 4rpx solid var(--color-brand); }
+

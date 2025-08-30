@@ -1,0 +1,20 @@
+.tree-canvas { position: relative; }
+.node {
+  position: absolute;
+  width: 220rpx;
+  padding: 16rpx;
+  background: var(--color-card-bg);
+  border-radius: var(--radius-node);
+  box-shadow: var(--shadow-base);
+}
+.node .avatar {
+  width: 72rpx;
+  height: 72rpx;
+  background: #e6e8ef;
+  border-radius: 50%;
+}
+.node .name { margin-top: 8rpx; font-weight: 600; }
+.node .meta { color: var(--color-text-3); font-size: 24rpx; }
+
+.toolbar { position: sticky; top: 0; z-index: 2; }
+

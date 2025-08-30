@@ -1,0 +1,36 @@
+@import "styles/tokens.wxss";
+
+page {
+  background-color: var(--color-page-bg);
+  color: var(--color-text);
+}
+
+/* 绑定 theme 到 :root 的变通：使用全屏覆盖层携带自定义 attr */
+.theme-light:root { theme: light; }
+.theme-dark:root { theme: dark; }
+
+.container {
+  padding: 24rpx;
+}
+
+.card {
+  background: var(--color-card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-base);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin: 24rpx 0 16rpx;
+}
+
+.fixed-actions {
+  position: fixed;
+  right: 24rpx;
+  bottom: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
