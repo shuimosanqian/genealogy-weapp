@@ -1,7 +1,19 @@
 {
   "libVersion": "2.27.3",
   "projectname": "genealogy-weapp",
-  "condition": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/parents/index",
+          "pathName": "pages/profile/index",
+          "query": "",
+          "scene": null,
+          "launchMode": "default"
+        }
+      ]
+    }
+  },
   "setting": {
     "urlCheck": false,
     "coverView": true,

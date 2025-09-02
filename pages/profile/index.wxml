@@ -207,9 +207,11 @@
         
         <view class="login-actions">
           <view class="login-btn primary" bindtap="onLoginSubmit">登录</view>
-          <view class="login-btn secondary" bindtap="onRegister">注册账户</view>
+          <view class="login-btn secondary" bindtap="showRegisterModal">注册账户</view>
         </view>
         
+
+
         <view class="other-login">
           <view class="divider">
             <text>或使用其他方式登录</text>
@@ -225,4 +227,73 @@
     </view>
   </view>
 </view>
+
+
+
+
+
+
+
+ <!-- 注册弹窗 -->
+ <view class="login-modal" wx:if="{{ showRegisterModal}}">
+    <view class="modal-mask" bindtap="hideRegisterModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">用户注册</text>
+        <view class="modal-close" bindtap="hideRegisterModal">✕</view>
+      </view>
+      
+      <view class="modal-body">
+        <view class="input-group">
+          <view class="input-label">用户名/手机号</view>
+          <input 
+            class="login-input" 
+            placeholder="请输入用户名或手机号" 
+            value="{{registerForm.username}}"
+            bindinput="onUsernameInput"
+          />
+        </view>
+        
+        <view class="input-group">
+          <view class="input-label">密码</view>
+          <input 
+            class="login-input" 
+            placeholder="请输入密码" 
+            password="true"
+            value="{{registerForm.password}}"
+            bindinput="onPasswordInput"
+          />
+        </view>
+
+        <view class="input-group">
+          <view class="input-label">请再次输入密码</view>
+          <input 
+            class="login-input" 
+            placeholder="请输入密码" 
+            password="true"
+            value="{{registerForm.verifyPassword}}"
+            bindinput="onPasswordInput"
+          />
+          <view wx:if="{{registerForm.confirmPassword}}" class="password-match-indicator">
+          <text wx:if="{{passwordsMatch}}" class="match-success">✓</text>
+          <text wx:else class="match-error">✗</text>
+        </view>
+      </view>
+      <text wx:if="{{registerForm.confirmPassword}} && !passwordsMatch" class="password-match-error">两次输入的密码不一致</text>
+    </view>
+
+        <view class="login-actions">
+          <view class="login-btn secondary" bindtap="showRegisterModal">注册账户</view>
+        </view>
+        
+</view>
+</view>
+    
+
+
+
+
+
+
+
 

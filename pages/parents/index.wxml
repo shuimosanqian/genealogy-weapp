@@ -1,0 +1,71 @@
+
+<view class="container {{__theme__==='dark'?'theme-dark':''}}">
+  <!-- 基本信息 -->
+  <view class="form-section">
+    <view class="section-header">
+      <text class="section-icon">👤</text>
+      <text class="section-title">父亲信息</text>
+    </view>
+    <view class="form-card">
+      <view class="form-item">
+        <view class="form-label">姓名</view>
+        <input class="input" placeholder="请输入姓名" value="{{formData.name}}" data-field="name" bindinput="onInputChange"/>
+      </view>
+      <view class="form-item">
+        <view class="form-label">性别</view>
+        <picker mode="selector" range="{{['男','女']}}" bindchange="onGenderChange">
+          <view class="picker-chip">{{formData.gender}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <view class="form-label">出生年月</view>
+        <picker mode="date" fields="month" value="{{formData.birthDate}}" bindchange="onBirthDateChange">
+          <view class="picker-chip">{{formData.birthDate || '请选择出生年月'}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <view class="form-label">籍贯</view>
+        <input class="input" placeholder="省/市/区" value="{{formData.location}}" data-field="location" bindinput="onInputChange"/>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-section">
+    <view class="section-header">
+      <text class="section-icon">👤</text>
+      <text class="section-title">母亲信息</text>
+    </view>
+    <view class="form-card">
+      <view class="form-item">
+        <view class="form-label">姓名</view>
+        <input class="input" placeholder="请输入姓名" value="{{formData.spouseName}}" data-field="name" bindinput="onInputChange"/>
+      </view>
+      <view class="form-item">
+        <view class="form-label">性别</view>
+        <picker mode="selector" range="{{['男','女']}}" bindchange="onGenderChange">
+          <view class="picker-chip">{{formData.spouseGender}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <view class="form-label">出生年月</view>
+        <picker mode="date" fields="month" value="{{formData.birthDate}}" bindchange="onBirthDateChange">
+          <view class="picker-chip">{{formData. spouseBirthDate || '请选择出生年月'}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <view class="form-label">籍贯</view>
+        <input class="input" placeholder="省/市/区" value="{{formData.spouseLocation}}" data-field="location" bindinput="onInputChange"/>
+      </view>
+    </view>
+  </view>
+
+
+
+  <!-- 底部保存按钮 -->
+  <view class="save-section">
+    <view class="save-btn primary" bindtap="onSave">
+      <text class="btn-icon">💾</text>
+      <text>保存成员</text>
+    </view>
+  </view>
+</view>
