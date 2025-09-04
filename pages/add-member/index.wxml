@@ -26,11 +26,61 @@
         <view class="form-label">籍贯</view>
         <input class="input" placeholder="省/市/区" value="{{formData.location}}" data-field="location" bindinput="onInputChange"/>
       </view>
+      <view class="form-item">
+        <view class="form-label">婚否</view>
+        <picker mode="selector" range="{{['否','是']}}" bindchange="onMerryChange">
+          <view class="picker-chip">{{formData.marry}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <view class="form-label">一世祖</view>
+        <picker mode="selector" range="{{['否','是']}}" bindchange="onAncestorChange">
+          <view class="picker-chip">{{formData.ancestor}}</view>
+        </picker>
+      </view>
+      
+      <view class="form-item" wx:if="{{isAncestor}}">
+        <view class="form-label">父亲姓名</view>
+        <input class="input" placeholder="请输入姓名" value="{{formData.fatherName}}" data-field="fatherName" bindinput="onInputChange"/>
+      </view>
+      <view class="form-item" wx:if="{{isAncestor}}">
+        <view class="form-label">母亲姓名</view>
+        <input class="input" placeholder="请输入姓名" value="{{formData.motherName}}" data-field="motherName" bindinput="onInputChange"/>
+      </view>
+  </view>
+  </view>
+<!-- 配偶信息 -->
+
+<view class="form-section" wx:if="{{isShowSpouseInfo}}">
+    <view class="section-header">
+      <text class="section-icon">👤</text>
+      <text class="section-title">配偶信息</text>
+    </view>
+    <view class="form-card">
+      <view class="form-item">
+        <view class="form-label">姓名</view>
+        <input class="input" placeholder="请输入姓名" value="{{formData.spouseName}}" data-field="spouseName" bindinput="onInputChange"/>
+      </view>
+      <view class="form-item">
+        <view class="form-label">性别</view>
+        <picker mode="selector" range="{{['男','女']}}" bindchange="onSpouseGenderChange">
+          <view class="picker-chip">{{formData.spouseGender}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <view class="form-label">出生年月</view>
+        <picker mode="date" fields="month" value="{{formData.spouseBirthDate}}" bindchange="onSpouseBirthDateChange">
+          <view class="picker-chip">{{formData.spouseBirthDate || '请选择出生年月'}}</view>
+        </picker>
+      </view>
+      <view class="form-item">
+        <view class="form-label">籍贯</view>
+        <input class="input" placeholder="省/市/区" value="{{formData.spouseLocation}}" data-field="spouseLocation" bindinput="onInputChange"/>
+      </view>
     </view>
   </view>
-
-  <!-- 亲属关系 -->
-  <view class="form-section">
+  <!-- 亲属关系
+  <view class="form-section" wx:if="{{isAncestor}}">
     <view class="section-header">
       <text class="section-icon">👨‍👩‍👧‍👦</text>
       <text class="section-title">亲属关系</text>
@@ -41,21 +91,10 @@
           <text class="relation-icon">👴</text>
           <text class="relation-text">添加父母</text>
         </view>
-        <view class="relation-btn" bindtap="onAddSpouse">
-          <text class="relation-icon">💑</text>
-          <text class="relation-text">添加配偶</text>
-        </view>
-        <view class="relation-btn" bindtap="onAddChild">
-          <text class="relation-icon">👶</text>
-          <text class="relation-text">添加子女</text>
-        </view>
-        <view class="relation-btn" bindtap="onAddSibling">
-          <text class="relation-icon">👥</text>
-          <text class="relation-text">添加兄弟姐妹</text>
-        </view>
+       
       </view>
     </view>
-  </view>
+  </view> -->
 
   <!-- 底部保存按钮 -->
   <view class="save-section">

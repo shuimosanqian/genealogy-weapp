@@ -3,11 +3,18 @@ Page({
   data: {
     isDark: false,
     showLoginModal: false,
+    showRegisterModal:false,
     loginForm: {
       username: '',
       password: '',
       remember: false
     },
+    registerForm:{
+      username: '',
+      password: '',
+      verifyPassword: '',
+    },
+
     userInfo: {
       name: '未登录',
       isLogin: false,
@@ -93,6 +100,12 @@ Page({
   
   hideLoginModal() {
     this.setData({ showLoginModal: false });
+  },
+  showRegisterModal(){
+    this.setData({ showRegisterModal: true });
+  },
+  hideRegisterModal(){
+    this.setData({ showRegisterModal: false });
   },
   
   // 表单输入处理
@@ -187,7 +200,44 @@ Page({
   onForgotPassword() {
     wx.showToast({ title: '找回密码功能开发中', icon: 'none' });
   },
-  
+  async onRegisterSave() {
+    const { formData } = this.data.registerForm;
+    
+    if (!formData.uername.trim()) {
+      wx.showToast({ title: '请输入用户名', icon: 'none' });
+      return;
+    }
+    
+    
+    wx.showLoading({ title: '保存中...' });
+    
+    try {
+      const result = await wx.cloud.callFunction({
+        name: 'addMember',
+        data: {
+          memberData: {
+            ...formData,
+            familyId: 'default' // 可以根据实际需求设置
+          }
+        }
+      });
+      
+      wx.hideLoading();
+      
+      if (result.result.success) {
+        wx.showToast({ title: '保存成功' });
+        setTimeout(() => {
+          wx.navigateBack();
+        }, 1500);
+      } else {
+        wx.showToast({ title: '保存失败', icon: 'none' });
+      }
+    } catch (error) {
+      wx.hideLoading();
+      wx.showToast({ title: '网络错误', icon: 'none' });
+      console.error('保存成员失败:', error);
+    }
+  },
   onWechatLogin() {
     wx.getUserProfile({
       desc: '用于完善用户资料',

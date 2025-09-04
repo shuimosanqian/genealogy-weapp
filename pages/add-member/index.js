@@ -5,8 +5,20 @@ Page({
       gender: '男',
       birthDate: '',
       location: '',
-      generation: 1
-    }
+      generation: 1,
+      marry: '是',
+      ancestor:'否',
+      fatherName:'',
+      motherName:'',
+      spouseName:'',
+      spouseGender: '男',
+      spouseBirthDate: '',
+      spouseLocation: ''
+
+
+    },
+    isShowSpouseInfo:true,
+    isAncestor:true
   },
   
   onLoad() {},
@@ -19,14 +31,56 @@ Page({
   },
   
   onGenderChange(e) {
+    const index = e.detail.value; // 获取的是索引：0 或 1
+    const genders = ['男', '女'];
+    
     this.setData({
-      'formData.gender': e.detail.value === 0 ? '男' : '女'
+      'formData.gender': genders[index] // 将索引转换为文字
+    });
+ 
+  },
+
+  onSpouseGenderChange(e) {
+    const index = e.detail.value; // 获取的是索引：0 或 1
+    const genders = ['男', '女'];
+    
+    this.setData({
+      'formData.spouseGender': genders[index] // 将索引转换为文字
+    });
+ 
+  },
+
+  onMerryChange(e){
+
+    const index = e.detail.value; // 获取的是索引：0 或 1
+    const marrys = ['否', '是'];
+    
+    this.setData({
+      'formData.marry':marrys[index],// 将索引转换为文字
+      isShowSpouseInfo: index==1
     });
   },
-  
+  onAncestorChange(e){
+
+    const index = e.detail.value; // 获取的是索引：0 或 1
+    const ancestors = ['否', '是'];
+    
+    this.setData({
+      'formData.ancestor':  ancestors[index],// 将索引转换为文字
+      isAncestor:index==0
+      
+    });
+   
+  },
+  // 
   onBirthDateChange(e) {
     this.setData({
       'formData.birthDate': e.detail.value
+    });
+  },
+  onSpouseBirthDateChange(e) {
+    this.setData({
+      'formData.spouseBirthDate': e.detail.value
     });
   },
   
@@ -71,6 +125,16 @@ Page({
   // 亲属关系按钮处理
   onAddParent() {
     wx.showToast({ title: '添加父母功能开发中', icon: 'none' });
+    wx.navigateTo({
+      url: '/pages/parents/index', // 跳转的页面路径
+      success: () => {
+        // 跳转成功的回调
+      },
+      fail: (err) => {
+        console.error('跳转失败:', err);
+        wx.showToast({ title: '跳转失败', icon: 'none' });
+      }
+    });
   },
   
   onAddSpouse() {
