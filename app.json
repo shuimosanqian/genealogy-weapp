@@ -8,6 +8,17 @@
     "pages/profile/index",
     "pages/parents/index"
   ],
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseAddress"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示" 
+    }},
+    "scope.phoneNumber": {
+      "desc": "获取你的手机号"
+    },
   "window": {
     "navigationStyle": "default",
     "navigationBarTitleText": "家谱",

@@ -6,7 +6,7 @@ App({
     // 初始化云开发
     if (wx.cloud) {
       wx.cloud.init({
-        env: 'cloud1-2gk5rkgwabd2e7c9', // 请替换为你的真实环境ID
+        env: 'cloud1-8gr8ucme12e1d53f', // 请替换为你的真实环境ID
         traceUser: true
       });
     }

@@ -3,18 +3,7 @@ Page({
   data: {
     isDark: false,
     showLoginModal: false,
-    showRegisterModal:false,
-    loginForm: {
-      username: '',
-      password: '',
-      remember: false
-    },
-    registerForm:{
-      username: '',
-      password: '',
-      verifyPassword: '',
-    },
-
+    
     userInfo: {
       name: '未登录',
       isLogin: false,
@@ -39,43 +28,28 @@ Page({
   
   async loadUserData() {
     try {
-      // 检查是否有保存的登录信息
-      const savedLogin = wx.getStorageSync('loginInfo');
-      if (savedLogin && savedLogin.remember) {
+      // 仅使用微信登录：从本地获取微信用户信息
+      const wxUser = wx.getStorageSync('wxUser');
+      if (wxUser && wxUser.nickName) {
         this.setData({
-          'loginForm.username': savedLogin.username,
-          'loginForm.password': savedLogin.password,
-          'loginForm.remember': true
+          'userInfo.name': wxUser.nickName,
+          'userInfo.isLogin': true,
+          'userInfo.role': '家谱管理员',
+          statistics: {
+            familyCount: 2,
+            memberCount: 45,
+            generationCount: 6,
+            branchCount: 8,
+            photoCount: 23
+          },
+          inviteCount: 3
         });
-        
-        // 自动登录
-        this.autoLogin(savedLogin.username);
       }
     } catch (error) {
       console.error('加载用户数据失败:', error);
     }
   },
   
-  async autoLogin(username) {
-    try {
-      // 模拟自动登录
-      this.setData({
-        'userInfo.name': username,
-        'userInfo.isLogin': true,
-        'userInfo.role': '家谱管理员',
-        statistics: {
-          familyCount: 2,
-          memberCount: 45,
-          generationCount: 6,
-          branchCount: 8,
-          photoCount: 23
-        },
-        inviteCount: 3
-      });
-    } catch (error) {
-      console.error('自动登录失败:', error);
-    }
-  },
   
   onToggleTheme(e) {
     const isDark = e.detail.value;
@@ -101,25 +75,6 @@ Page({
   hideLoginModal() {
     this.setData({ showLoginModal: false });
   },
-  showRegisterModal(){
-    this.setData({ showRegisterModal: true });
-  },
-  hideRegisterModal(){
-    this.setData({ showRegisterModal: false });
-  },
-  
-  // 表单输入处理
-  onUsernameInput(e) {
-    this.setData({ 'loginForm.username': e.detail.value });
-  },
-  
-  onPasswordInput(e) {
-    this.setData({ 'loginForm.password': e.detail.value });
-  },
-  
-  onRememberChange(e) {
-    this.setData({ 'loginForm.remember': e.detail.value });
-  },
   
   // 用户操作
   onAvatarTap() {
@@ -139,131 +94,121 @@ Page({
     }
   },
   
-  // 登录相关
-  async onLoginSubmit() {
-    const { username, password } = this.data.loginForm;
-    
-    if (!username.trim()) {
-      wx.showToast({ title: '请输入用户名', icon: 'none' });
-      return;
-    }
-    
-    if (!password.trim()) {
-      wx.showToast({ title: '请输入密码', icon: 'none' });
-      return;
-    }
-    
-    wx.showLoading({ title: '登录中...' });
-    
-    try {
-      // 模拟登录请求
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // 登录成功
-      this.setData({
-        'userInfo.name': username,
-        'userInfo.isLogin': true,
-        'userInfo.role': '家谱管理员',
-        showLoginModal: false,
-        statistics: {
-          familyCount: 2,
-          memberCount: 45,
-          generationCount: 6,
-          branchCount: 8,
-          photoCount: 23
-        },
-        inviteCount: 3
-      });
-      
-      // 保存登录状态
-      if (this.data.loginForm.remember) {
-        wx.setStorageSync('loginInfo', {
-          username,
-          password,
-          remember: true
-        });
-      }
-      
-      wx.hideLoading();
-      wx.showToast({ title: '登录成功', icon: 'success' });
-      
-    } catch (error) {
-      wx.hideLoading();
-      wx.showToast({ title: '登录失败，请检查账户密码', icon: 'none' });
-    }
-  },
-  
-  onRegister() {
-    wx.showToast({ title: '注册功能开发中', icon: 'none' });
-  },
-  
-  onForgotPassword() {
-    wx.showToast({ title: '找回密码功能开发中', icon: 'none' });
-  },
-  async onRegisterSave() {
-    const { formData } = this.data.registerForm;
-    
-    if (!formData.uername.trim()) {
-      wx.showToast({ title: '请输入用户名', icon: 'none' });
-      return;
-    }
-    
-    
-    wx.showLoading({ title: '保存中...' });
-    
-    try {
-      const result = await wx.cloud.callFunction({
-        name: 'addMember',
-        data: {
-          memberData: {
-            ...formData,
-            familyId: 'default' // 可以根据实际需求设置
+  // // 登录相关（仅微信登录）
+  // onWechatLogin() {
+  //   wx.getUserProfile({
+  //     desc: '用于完善用户资料',
+  //     success: (res) => {
+  //       // 可选：获取临时登录凭证 code
+  //       wx.login({
+  //         success: () => {
+  //           // 持久化存储微信用户基本信息
+  //           console.log(res.userInfo);
+  //           wx.setStorageSync('wxUser', res.userInfo);
+  //           this.setData({
+  //             'userInfo.name': res.userInfo.nickName,
+  //             'userInfo.isLogin': true,
+  //             'userInfo.role': '家谱管理员',
+  //             showLoginModal: false,
+  //             statistics: {
+  //               familyCount: 2,
+  //               memberCount: 45,
+  //               generationCount: 6,
+  //               branchCount: 8,
+  //               photoCount: 23
+  //             },
+  //             inviteCount: 3
+  //           });
+  //           wx.showToast({ title: '微信登录成功', icon: 'success' });
+  //         }
+  //       });
+  //     },
+  //     fail: () => {
+  //       wx.showToast({ title: '微信登录取消', icon: 'none' });
+  //     }
+  //   });
+  // },
+  onWechatLogin(){
+         // 查看是否授权
+         const that = this;
+         wx.getSetting({
+          success: function(res) {
+              if (res.authSetting['scope.userInfo']) {
+                  wx.getUserInfo({
+                      success: function(res) {
+                     //      console.log(res)
+                      that.setData({
+                      'userInfo.name': res.userInfo.nickName,
+                      'userInfo.isLogin': true,
+                      'userInfo.role': '家谱管理员',
+                      showLoginModal: false,
+                      statistics: {
+                        familyCount: 2,
+                        memberCount: 45,
+                        generationCount: 6,
+                        branchCount: 8,
+                        photoCount: 23
+                      },
+                      inviteCount: 3
+                    });
+                    wx.showToast({ title: '微信登录成功', icon: 'success' });
+
+                      //  res.data.userInfo.nickName;
+                          // 用户已经授权过,不需要显示授权页面,所以不需要改变 isHide 的值
+                          // 根据自己的需求有其他操作再补充
+                          // 我这里实现的是在用户授权成功后，调用微信的 wx.login 接口，从而获取code
+                          wx.login({
+                              success: res => {
+                                  // 获取到用户的 code 之后：res.code
+                                  console.log("用户的code:" + res.code);
+                                  // 可以传给后台，再经过解析获取用户的 openid
+                                  // 或者可以直接使用微信的提供的接口直接获取 openid ，方法如下：
+                                  let APPID='';
+                                  let SECRET='';
+                                  const code=res.code;
+                                  const db = wx.cloud.database();
+
+                                  // 获取集合引用
+                                  const usersCollection = db.collection('APPInfo');
+                                
+                                  // 查询所有用户数据
+                                  usersCollection.get({
+                                    success: res => {
+                                     APPID=res.data[0].APPID.replace(/"/g, "'");
+                                     SECRET=res.data[0].SECRET.replace(/"/g, "'");
+
+                                          wx.request({
+                                            // 自行补上自己的 APPID 和 SECRET
+                                          
+                                            url: `https://api.weixin.qq.com/sns/jscode2session?appid=${APPID}&secret=${SECRET}&js_code=${code}&grant_type=authorization_code`,
+                                            success: res => {
+                                                // 获取到用户的 openid
+                                                console.log("用户的openid:" + res.data.openid);
+                                            }
+                                        });
+
+                                    //  console.log(APPID);
+                                    //  console.log('查询结果：', res.data[0]); // res.data 包含了查询结果
+                                    },
+                                    fail: err => {
+                                      console.error('查询失败：', err);
+                                    }
+                                  });
+                               
+                              }
+                          });
+                      }
+                  });
+              } else {
+                  // 用户没有授权
+                  // 改变 isHide 的值，显示授权页面
+                  that.setData({
+                      isHide: true
+                  });
+              }
           }
-        }
       });
-      
-      wx.hideLoading();
-      
-      if (result.result.success) {
-        wx.showToast({ title: '保存成功' });
-        setTimeout(() => {
-          wx.navigateBack();
-        }, 1500);
-      } else {
-        wx.showToast({ title: '保存失败', icon: 'none' });
-      }
-    } catch (error) {
-      wx.hideLoading();
-      wx.showToast({ title: '网络错误', icon: 'none' });
-      console.error('保存成员失败:', error);
-    }
   },
-  onWechatLogin() {
-    wx.getUserProfile({
-      desc: '用于完善用户资料',
-      success: (res) => {
-        this.setData({
-          'userInfo.name': res.userInfo.nickName,
-          'userInfo.isLogin': true,
-          'userInfo.role': '家谱管理员',
-          showLoginModal: false,
-          statistics: {
-            familyCount: 2,
-            memberCount: 45,
-            generationCount: 6,
-            branchCount: 8,
-            photoCount: 23
-          },
-          inviteCount: 3
-        });
-        wx.showToast({ title: '微信登录成功', icon: 'success' });
-      },
-      fail: () => {
-        wx.showToast({ title: '微信登录取消', icon: 'none' });
-      }
-    });
-  },
-  
   onLogout() {
     wx.showModal({
       title: '确认退出',
@@ -285,8 +230,8 @@ Page({
             inviteCount: 0
           });
           
-          // 清除登录信息
-          wx.removeStorageSync('loginInfo');
+          // 清除微信登录信息
+          wx.removeStorageSync('wxUser');
           wx.showToast({ title: '已退出登录', icon: 'success' });
         }
       }
