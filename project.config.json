@@ -1,9 +1,9 @@
 {
   "miniprogramRoot": "./",
-  "cloudfunctionRoot": "./cloudfunctions/",
+  "cloudfunctionRoot": "cloudfunctions/",
   "projectname": "genealogy-weapp",
   "description": "家谱小程序",
-  "appid": "wx8e6b0279beb63ed7",
+  "appid": "wx2b0c2764783e81b7",
   "compileType": "miniprogram",
   "setting": {
     "urlCheck": false,
